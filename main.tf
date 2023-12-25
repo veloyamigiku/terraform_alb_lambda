@@ -208,6 +208,9 @@ resource "aws_lb_target_group" "ltg" {
 resource "aws_lb_target_group_attachment" "ltga" {
   target_group_arn = aws_lb_target_group.ltg.arn
   target_id = aws_lambda_function.function.arn
+  depends_on = [
+    aws_lambda_permission.lp
+  ]
 }
 
 resource "aws_lambda_permission" "lp" {
@@ -226,6 +229,7 @@ resource "aws_lb_listener" "lbl" {
   port = 80
   protocol = "HTTP"
 }
+
 /*
 resource "aws_lb_listener_rule" "lblr" {
   listener_arn = aws_lb_listener.lbl.arn
